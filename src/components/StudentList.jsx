@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 import "./StudentList.scss";
 
-const Data = [
-    { idStudent: 1, name: "Nguyễn Văn A", classId: "10A2" },
-    { idStudent: 2, name: "Phạm Văn B", classId: "10A2" },
-    { idStudent: 3, name: "Đinh Văn C", classId: "10A2" }
 
-]
 const StudentList = () => {
     const [listStudent, setListStudent] = useState([]);
     const [idStudent, setIdStudent] = useState("");
@@ -16,16 +11,15 @@ const StudentList = () => {
     // khởi tạo localStorage nếu chưa có dữ liệu
     useEffect(() => {
         const stored = localStorage.getItem("listStudent");
-        if (!stored) {
-            localStorage.setItem("listStudent", JSON.stringify(Data));
-            setListStudent(Data)
-        } else {
+        if (stored) {
             setListStudent(JSON.parse(stored))
         }
     }, []);
     // cap nhat localStorage khi list students thay doi
     useEffect(() => {
-        localStorage.setItem("listStudent", JSON.stringify(listStudent));
+        if (listStudent.length > 0) {
+            localStorage.setItem("listStudent", JSON.stringify(listStudent));
+        }
     }, [listStudent])
 
     const reSetForm = () => {
@@ -35,7 +29,7 @@ const StudentList = () => {
     }
     // them student
     const handleAddStudent = () => {
-        if (!name || !classId) {
+        if (!name || !classId || !idStudent) {
             alert('Vui lòng nhập đầy đủ thông tin');
             return;
         }
@@ -46,7 +40,6 @@ const StudentList = () => {
         };
         const updateStudent = [...listStudent, newStudent];
         setListStudent(updateStudent);
-        localStorage.setItem("listStudent", JSON.stringify(updateStudent));
         alert("Thêm học sinh thành công !")
         reSetForm();
     }
@@ -54,14 +47,14 @@ const StudentList = () => {
         if (id && id > 0) {
             const updatedList = listStudent.filter((student) => student.idStudent !== id);
             setListStudent(updatedList);
-            localStorage.setItem("listStudent", JSON.stringify(updatedList))
             alert("Đã xóa học sinh thành công")
         } else {
             alert("Xóa học sinh thất bại")
         }
     }
+    console.log('check listStudent: ', listStudent)
     return (
-        <>
+        <div className="student-list-container mx-2">
             <h3>Thêm mới học sinh</h3>
             <div className="form-student">
                 <input
@@ -85,23 +78,42 @@ const StudentList = () => {
                 <button onClick={handleAddStudent}>Thêm</button>
             </div>
 
-            <h3>Danh sách học sinh</h3>
+            <h3 >Danh sách học sinh</h3>
             <div>
-                {listStudent.map((item, index) => {
-                    return (
-                        <li key={item.idStudent}>
-                            <span className="content">{item.idStudent} - {item.name} - {item.classId}</span>
-                            <button
-                                className="btn-delete"
-                                onClick={() => handleDeleteStudent(item.idStudent)}
-                            >
-                                Xóa
-                            </button>
-                        </li>
-                    )
-                })}
+                <>
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Mã học sinh</th>
+                                <th scope="col">Họ Và Tên</th>
+                                <th scope="col">Mã Lớp</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {listStudent && listStudent.length > 0 && listStudent.map((item, index) => {
+                                return (
+                                    <tr key={item.idStudent}>
+                                        <th>{item.idStudent}</th>
+                                        <td>{item.name}</td>
+                                        <td>{item.classId}</td>
+                                        <td>
+                                            <button
+                                                className="btn-delete btn-primary"
+                                                onClick={() => handleDeleteStudent(item.idStudent)}
+                                            >
+                                                Xóa
+                                            </button>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </table>
+
+                </>
             </div>
-        </>
+        </div>
     )
 }
 
