@@ -1,4 +1,4 @@
-import TeacherList from "../components/TeacherList";
+import TeacherList from "../components/Teacher/TeacherList";
 
 const TeachersPage = () => {
     return (

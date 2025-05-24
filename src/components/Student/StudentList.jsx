@@ -7,7 +7,8 @@ const StudentList = () => {
     const [idStudent, setIdStudent] = useState("");
     const [name, setName] = useState("");
     const [classId, setClassId] = useState("");
-
+    const [editStudent, setEditStudent] = useState(null);
+    const [editMode, setEditMode] = useState(false);
     // khởi tạo localStorage nếu chưa có dữ liệu
     useEffect(() => {
         const stored = localStorage.getItem("listStudent");
@@ -26,6 +27,8 @@ const StudentList = () => {
         setIdStudent("");
         setName("");
         setClassId("");
+        setEditMode(false);
+        setEditStudent(null);
     }
     // them student
     const handleAddStudent = () => {
@@ -43,6 +46,7 @@ const StudentList = () => {
         alert("Thêm học sinh thành công !")
         reSetForm();
     }
+    // xoa hoc sinh
     const handleDeleteStudent = (id) => {
         if (id && id > 0) {
             const updatedList = listStudent.filter((student) => student.idStudent !== id);
@@ -52,6 +56,35 @@ const StudentList = () => {
             alert("Xóa học sinh thất bại")
         }
     }
+    // bắt đầu chỉnh sửa
+    const handleEditStudent = (student) => {
+        setEditMode(true);
+        // fill len input data da tao
+        setEditStudent(student.idStudent);
+        setIdStudent(student.idStudent);
+        setName(student.name)
+        setClassId(student.classId)
+    }
+    // cập nhật
+    const handleUpDateStudent = () => {
+        if (!name || !classId || !idStudent) {
+            alert("Vui lòng nhập đầy đủ thông tin");
+            return;
+        }
+        const updatedList = listStudent.map((student) =>
+            student.idStudent === editStudent
+                ? {
+                    idStudent: parseInt(idStudent),
+                    name,
+                    classId,
+                }
+                : student
+        );
+        setListStudent(updatedList);
+        alert('Cập nhật học sinh thành công!');
+        reSetForm();
+    }
+
     console.log('check listStudent: ', listStudent)
     return (
         <div className="student-list-container mx-2">
@@ -75,14 +108,19 @@ const StudentList = () => {
                     value={classId}
                     onChange={(e) => setClassId(e.target.value)}
                 />
-                <button onClick={handleAddStudent}>Thêm</button>
+                {editMode ? (
+                    <button onClick={handleUpDateStudent}>Cập nhật</button>
+                ) : (
+                    <button onClick={handleAddStudent}>Thêm</button>
+                )}
+                {editMode && <button onClick={reSetForm}>Hủy</button>}
             </div>
 
             <h3 >Danh sách học sinh</h3>
             <div>
                 <>
-                    <table className="table">
-                        <thead>
+                    <table className="table table-dark">
+                        <thead className="thead-dark">
                             <tr>
                                 <th scope="col">Mã học sinh</th>
                                 <th scope="col">Họ Và Tên</th>
@@ -91,13 +129,19 @@ const StudentList = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {listStudent && listStudent.length > 0 && listStudent.map((item, index) => {
+                            {listStudent && listStudent.length > 0 && listStudent.map((item) => {
                                 return (
                                     <tr key={item.idStudent}>
                                         <th>{item.idStudent}</th>
                                         <td>{item.name}</td>
                                         <td>{item.classId}</td>
                                         <td>
+                                            <button
+                                                className="btn-edit btn-warning mx-3"
+                                                onClick={() => handleEditStudent(item)}
+                                            >
+                                                Sửa
+                                            </button>
                                             <button
                                                 className="btn-delete btn-primary"
                                                 onClick={() => handleDeleteStudent(item.idStudent)}

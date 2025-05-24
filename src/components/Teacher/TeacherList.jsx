@@ -10,14 +10,17 @@ const TeacherList = () => {
 
     const dataForm = [
         {
+            type: 'text',
             placeholder: "Mã giáo viên",
             nameKey: "id"
         },
         {
+            type: 'text',
             placeholder: "Tên giáo viên",
             nameKey: "name"
         },
         {
+            type: 'text',
             placeholder: "Lớp",
             nameKey: "class"
         },
@@ -35,7 +38,7 @@ const TeacherList = () => {
         }))
     }
 
-    const renderFiedInput = ({ type = "text", placeholder, nameKey }) => {
+    const renderFiedInput = ({ type, placeholder, nameKey }) => {
         return <input
             type={type}
             placeholder={placeholder}
@@ -46,6 +49,7 @@ const TeacherList = () => {
 
     const renderForm = () => {
         return dataForm.map((e) => (renderFiedInput({
+            type: e.type,
             placeholder: e.placeholder,
             nameKey: e.nameKey
         })))

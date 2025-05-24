@@ -1,4 +1,4 @@
-import StudentList from "../components/StudentList";
+import StudentList from "../components/Student/StudentList";
 
 const StudentsPage = () => {
     return (
