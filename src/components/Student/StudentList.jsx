@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import "./StudentList.scss";
-
-
+import "../TableList.scss";
 const StudentList = () => {
     const [listStudent, setListStudent] = useState([]);
     const [idStudent, setIdStudent] = useState("");
@@ -87,9 +85,9 @@ const StudentList = () => {
 
     console.log('check listStudent: ', listStudent)
     return (
-        <div className="student-list-container mx-2">
+        <div className="list-container mx-2">
             <h3>Thêm mới học sinh</h3>
-            <div className="form-student">
+            <div className="list-form">
                 <input
                     type="text"
                     placeholder="Mã học sinh"

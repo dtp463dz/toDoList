@@ -1,16 +1,34 @@
-import { NavLink } from "react-router";
+import { NavLink } from "react-router-dom";
+import "../style/Navbar.scss";
 
 const Navbar = () => {
     return (
-        <nav style={{ padding: "10px", background: "white" }}>
-            <NavLink to="/">Dashboard</NavLink> |{" "}
-            <NavLink to="/students">Học sinh</NavLink> |{" "}
-            <NavLink to="/teachers">Giáo viên</NavLink> |{" "}
-            <NavLink to="/classes">Lớp học</NavLink> |{" "}
-            <NavLink to="/transfer">Chuyển lớp</NavLink> |{" "}
-            <NavLink to="/template">Vi du</NavLink> |{" "}
-
+        <nav className="navbar">
+            <NavLink to="/" className="nav-link">
+                Dashboard
+            </NavLink>
+            <span className="nav-divider">|</span>
+            <NavLink to="/students" className="nav-link">
+                Học sinh
+            </NavLink>
+            <span className="nav-divider">|</span>
+            <NavLink to="/teachers" className="nav-link">
+                Giáo viên
+            </NavLink>
+            <span className="nav-divider">|</span>
+            <NavLink to="/classes" className="nav-link">
+                Lớp học
+            </NavLink>
+            <span className="nav-divider">|</span>
+            <NavLink to="/transfer" className="nav-link">
+                Chuyển lớp
+            </NavLink>
+            <span className="nav-divider">|</span>
+            <NavLink to="/template" className="nav-link">
+                Ví dụ
+            </NavLink>
         </nav>
     );
-}
+};
+
 export default Navbar;

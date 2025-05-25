@@ -1,0 +1,65 @@
+// /src/components/Navbar.scss
+
+$primary-color: #007bff; // Blue for active links
+$background-dark: #343a40; // Dark background for navbar
+$text-light: #f8f9fa; // Light text color
+$hover-color: #0056b3; // Darker blue for hover
+$border-color: #ced4da; // Border color
+$shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Subtle shadow
+$transition: all 0.3s ease; // Smooth transition
+
+.navbar {
+    background-color: $background-dark;
+    padding: 1rem 2rem;
+    box-shadow: $shadow;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    .nav-link {
+        color: $text-light;
+        text-decoration: none;
+        font-size: 1.1rem;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        margin: 0 0.5rem;
+        border-radius: 4px;
+        transition: $transition;
+
+        &:hover {
+            background-color: $hover-color;
+            color: $text-light;
+        }
+
+        &.active {
+            background-color: $primary-color;
+            color: $text-light;
+        }
+    }
+
+    .nav-divider {
+        color: $text-light;
+        margin: 0 0.5rem;
+    }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        padding: 1rem;
+
+        .nav-link {
+            margin: 0.5rem 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .nav-divider {
+            display: none;
+        }
+    }
+}

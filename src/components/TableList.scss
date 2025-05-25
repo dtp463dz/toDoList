@@ -1,0 +1,136 @@
+$primary-color: #007bff; // Blue for buttons
+$danger-color: #dc3545; // Red for delete button
+$background-light: #f8f9fa; // Light background
+$background-dark: #343a40; // Dark background
+$text-light: #212529; // Dark text for light theme
+$text-dark: #f8f9fa; // Light text for dark theme
+$border-color: #ced4da; // Border color
+$shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Subtle shadow
+$table-header-bg: #e9ecef; // Table header background
+$table-header-bg-dark: #495057; // Table header background for dark theme
+
+// Container styles
+.list-container {
+    max-width: 800px;
+    padding: 1.5rem;
+    background-color: $background-dark;
+    border-radius: 8px;
+    box-shadow: $shadow;
+    margin-left: 100px;
+}
+
+h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.list-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+
+    input {
+        flex: 1;
+        min-width: 150px;
+        padding: 0.75rem;
+        font-size: 1rem;
+        border: 1px solid $border-color;
+        border-radius: 4px;
+        outline: none;
+        transition: border-color 0.3s ease;
+
+        &:focus {
+            border-color: $primary-color;
+            box-shadow: 0 0 5px rgba($primary-color, 0.3);
+        }
+
+        &::placeholder {
+            color: #6c757d;
+        }
+    }
+
+    button {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 500;
+        color: #fff;
+        background-color: $primary-color;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: darken($primary-color, 10%);
+        }
+
+        &:active {
+            background-color: darken($primary-color, 20%);
+        }
+    }
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+
+    thead {
+        background-color: $table-header-bg;
+    }
+
+    tbody {
+        tr {
+
+            th,
+            td {
+                padding: 0.75rem;
+                font-size: 1rem;
+            }
+
+            .btn-delete {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+                color: #fff;
+                background-color: $danger-color;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+
+                &:hover {
+                    background-color: darken($danger-color, 10%);
+                }
+
+                &:active {
+                    background-color: darken($danger-color, 20%);
+                }
+            }
+
+            .btn-edit {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+                color: black;
+                background-color: #00f2fe;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+
+                &:hover {
+                    background-color: #03aab3;
+
+                }
+
+                &:active {
+                    background-color: #03aab3;
+                }
+            }
+        }
+    }
+}
