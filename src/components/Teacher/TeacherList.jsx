@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import "../TableList.scss";
-const TeacherList = () => {
+const TeacherList = (props) => {
+    const classOptions = props.classOptions;
     const [teachers, setTeachers] = useState({
         id: "",
         name: "",
@@ -21,11 +22,11 @@ const TeacherList = () => {
             placeholder: "Tên giáo viên",
             nameKey: "name"
         },
-        {
-            type: 'text',
-            placeholder: "Lớp",
-            nameKey: "class"
-        },
+        // {
+        //     type: 'text',
+        //     placeholder: "Lớp",
+        //     nameKey: "class"
+        // },
     ]
     // khoi tao localStorage khi chua co du lieu
     useEffect(() => {
@@ -144,6 +145,17 @@ const TeacherList = () => {
             <h3>Thêm mới giáo viên</h3>
             <div className="list-form">
                 {renderForm()}
+                <select
+                    value={teachers.class}
+                    onChange={(e) => handleChangeValueForm("class", e.target.value)}
+                >
+                    <option value="">Chọn lớp</option>
+                    {classOptions.map((item) => (
+                        <option key={item.id} value={item.className}>
+                            {item.className}
+                        </option>
+                    ))}
+                </select>
                 {editMode ? (
                     <button onClick={handleUpdateTeacher}>Cập nhật</button>
                 ) : (
@@ -165,7 +177,7 @@ const TeacherList = () => {
                     <tbody>
                         {listTeachers && listTeachers.length > 0 &&
                             listTeachers.map((item, index) => (
-                                <tr key={index.id}>
+                                <tr key={index}>
                                     <th>{item.id}</th>
                                     <td>{item.name}</td>
                                     <td>{item.class}</td>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "../TableList.scss";
-const StudentList = () => {
+const StudentList = (props) => {
+    const classOptions = props.classOptions;
     const [listStudent, setListStudent] = useState([]);
     const [idStudent, setIdStudent] = useState("");
     const [name, setName] = useState("");
@@ -100,12 +101,23 @@ const StudentList = () => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />
-                <input
+                {/* <input
                     type="text"
                     placeholder="Tên lớp"
                     value={classId}
                     onChange={(e) => setClassId(e.target.value)}
-                />
+                /> */}
+                <select
+                    value={classId}
+                    onChange={(e) => setClassId(e.target.value)}
+                >
+                    <option value="">Chọn lớp</option>
+                    {classOptions.map((item) => (
+                        <option key={item.id} value={item.className}>
+                            {item.className}
+                        </option>
+                    ))}
+                </select>
                 {editMode ? (
                     <button onClick={handleUpDateStudent}>Cập nhật</button>
                 ) : (
