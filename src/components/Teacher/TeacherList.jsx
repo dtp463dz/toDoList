@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
 import "../TableList.scss";
+import { toast } from 'react-toastify';
+
 const TeacherList = (props) => {
     const classOptions = props.classOptions;
     const [teachers, setTeachers] = useState({
@@ -46,7 +48,7 @@ const TeacherList = (props) => {
     // them giao vien
     const handleAddTeacher = () => {
         if (!teachers.name || !teachers.class || !teachers.id) {
-            alert('Vui lòng nhập đầy đủ thông tin');
+            toast.error('Vui lòng nhập đầy đủ thông tin');
             return;
         }
         const newTeacher = {
@@ -57,7 +59,7 @@ const TeacherList = (props) => {
         const upDateTeacher = [...listTeachers, newTeacher];
         console.log('check update teacher: ', upDateTeacher);
         setListTeachers(upDateTeacher);
-        alert("Thêm học sinh thành công !");
+        toast.success('Thêm giáo viên thành công !');
         resetForm();
     }
 
@@ -110,7 +112,7 @@ const TeacherList = (props) => {
     // hàm cập nhật 
     const handleUpdateTeacher = () => {
         if (!teachers.id || !teachers.name || !teachers.class) {
-            alert('Vui lòng nhập đầy đủ thông tin');
+            toast.error('Vui lòng nhập đầy đủ thông tin');
             return;
         }
         const updateList = listTeachers.map((teacher) =>
@@ -124,7 +126,7 @@ const TeacherList = (props) => {
         );
         // console.log('check update list: ', updateList);
         setListTeachers(updateList);
-        alert('Cập nhật giáo viên thành công !');
+        toast.success('Cập nhật giáo viên thành công !');
         resetForm();
 
     }
@@ -134,9 +136,9 @@ const TeacherList = (props) => {
         if (id && id > 0) {
             const updateList = listTeachers.filter((teachers) => teachers.id !== id);
             setListTeachers(updateList);
-            alert("Đã xóa giáo viên thành công")
+            toast.success("Đã xóa giáo viên thành công");
         } else {
-            alert("Xóa giáo viên thất bại")
+            toast.error("Xóa giáo viên thất bại");
         }
     }
 

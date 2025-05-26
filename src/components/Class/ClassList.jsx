@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import "./TableList.scss";
+import "../TableList.scss";
+import ModalViewStudent from "./ModalViewStudent";
+import { toast } from 'react-toastify';
 
 const ClassList = () => {
     const [listClass, setListClass] = useState([]);
@@ -7,8 +9,15 @@ const ClassList = () => {
         id: "",
         className: "",
     })
+    const [teacherList, setTeacherList] = useState([]);
     const [editClass, setEditClass] = useState(null);
     const [editMode, setEditMode] = useState(false);
+
+    // modal state
+    const [selectedClass, setSelectedClass] = useState(null);
+    const [studentsInClass, setStudentsInClass] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+
 
     const dataForm = [
         {
@@ -21,6 +30,7 @@ const ClassList = () => {
             placeholder: "Tên lớp học",
             nameKey: "className"
         },
+
     ]
 
     const handleChangeValueForm = (nameKey, value) => {
@@ -32,6 +42,7 @@ const ClassList = () => {
 
     const renderFiedInput = ({ type, placeholder, nameKey }) => {
         return <input
+            key={nameKey}
             type={type}
             placeholder={placeholder}
             value={classes[nameKey]}
@@ -46,11 +57,15 @@ const ClassList = () => {
         })))
     }
 
-    // Load dữ liệu lớp từ localStorage
+    // Load dữ liệu lớp và giáo viên từ localStorage
     useEffect(() => {
-        const stored = localStorage.getItem("classList");
-        if (stored) {
-            setListClass(JSON.parse(stored));
+        const storedClasses = localStorage.getItem("classList");
+        const storedTeachers = localStorage.getItem("listTeachers");
+        if (storedClasses) {
+            setListClass(JSON.parse(storedClasses));
+        }
+        if (storedTeachers) {
+            setTeacherList(JSON.parse(storedTeachers));
         }
     }, [])
     // Cập nhật localStorage mỗi khi thay đổi danh sách lớp
@@ -69,7 +84,8 @@ const ClassList = () => {
     // add 
     const handleAddClass = () => {
         if (!classes.id || !classes.className) {
-            return alert('Vui lòng nhập tên lớp');
+            toast.error('Vui lòng nhập tên lớp');
+            return;
         }
 
         const newClass = {
@@ -78,7 +94,7 @@ const ClassList = () => {
         };
         const updatedList = [...listClass, newClass];
         setListClass(updatedList);
-        alert("Thêm lớp học thành công");
+        toast.success("Thêm lớp học thành công");
         resetForm();
     }
     // 
@@ -94,7 +110,7 @@ const ClassList = () => {
     // cập nhật
     const handleUpdateClass = () => {
         if (!classes.id || !classes.className) {
-            alert('Vui lòng nhập đầy đủ thông tin');
+            toast.error('Vui lòng nhập đầy đủ thông tin');
             return;
         }
         const updateList = listClass.map((item) =>
@@ -102,11 +118,12 @@ const ClassList = () => {
                 ? {
                     id: parseInt(classes.id),
                     className: classes.className,
+                    teacherName: classes.teacherName,
                 } :
                 item
         );
         setListClass(updateList);
-        alert('Cập nhật lớp học thành công');
+        toast.success('Cập nhật lớp học thành công');
         resetForm();
     }
     // delete
@@ -114,12 +131,29 @@ const ClassList = () => {
         if (id && id > 0) {
             const updateList = listClass.filter((item) => item.id !== id)
             setListClass(updateList);
-            alert('Đã xóa lớp học thành công')
+            toast.success('Đã xóa lớp học thành công');
         } else {
-            alert('Xóa giáo viên thất bại')
+            toast.error('Xóa giáo viên thất bại');
         }
 
     }
+    // view
+    const handleViewStudents = (className) => {
+        const storedStudents = localStorage.getItem("listStudent");
+        if (storedStudents) {
+            const allStudents = JSON.parse(storedStudents);
+            const filtered = allStudents.filter(student => student.classId === className);
+            setStudentsInClass(filtered);
+            setSelectedClass(className);
+            setShowModal(true);
+        }
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+        setSelectedClass(null);
+        setStudentsInClass([]);
+    };
     return (
         <div className="list-container">
             <h3>Danh sách lớp học</h3>
@@ -136,38 +170,56 @@ const ClassList = () => {
             <div>
                 <table className="table table-dark">
                     <thead className="thead-dark">
-                        <tr>
+                        <tr className="text-center">
                             <th scope="col">STT</th>
                             <th scope="col">Tên lớp học</th>
+                            <th scope="col">GVCN</th>
                             <th scope="col">Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
                         {listClass && listClass.length > 0 && (
-                            listClass.map((item, index) => (
-                                <tr key={index}>
-                                    <th>{item.id}</th>
-                                    <th>{item.className}</th>
-                                    <td>
-                                        <button
-                                            className="btn-edit btn-warning mx-3"
-                                            onClick={() => handleEditClass(item)}
-                                        >
-                                            Sửa
-                                        </button>
-                                        <button
-                                            className="btn-delete btn-primary"
-                                            onClick={() => handleDeleteClass(item.id)}
-                                        >
-                                            Xóa
-                                        </button>
-                                    </td>
-                                </tr>
+                            listClass.map((item, index) => {
+                                const nameTeacher = teacherList.find(teacher => teacher.class === item.className);
+                                return (
+                                    <tr key={index}>
+                                        <th>{item.id}</th>
+                                        <th>{item.className}</th>
+                                        <td>{nameTeacher ? nameTeacher.name : "Chưa có"}</td>
+                                        <td>
+                                            <button
+                                                className="btn-edit btn-warning"
+                                                onClick={() => handleViewStudents(item.className)}
+                                            >
+                                                Xem
+                                            </button>
+                                            <button
+                                                className="btn-edit btn-warning mx-3"
+                                                onClick={() => handleEditClass(item)}
+                                            >
+                                                Sửa
+                                            </button>
+                                            <button
+                                                className="btn-delete btn-primary"
+                                                onClick={() => handleDeleteClass(item.id)}
+                                            >
+                                                Xóa
+                                            </button>
+                                        </td>
+                                    </tr>
+                                )
+                            }
+
                             ))
-                        )
                         }
                     </tbody>
                 </table>
+                <ModalViewStudent
+                    show={showModal}
+                    handleClose={handleCloseModal}
+                    className={selectedClass}
+                    students={studentsInClass}
+                />
             </div>
 
         </div>

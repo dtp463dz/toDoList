@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import TransferStudent from "../components/TransferStudent/TransferStudent";
+import "./Style.scss";
 
 const TransferPage = () => {
     const [classList, setClassList] = useState([]);
@@ -13,7 +14,7 @@ const TransferPage = () => {
 
     return (
         <div>
-            <h2 style={{ marginLeft: '350px' }}>Chuyển học sinh</h2>
+            <h2 className="text-center">Chuyển học sinh</h2>
             <TransferStudent classOptions={classList} />
         </div>
     );

@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { FaUsers, FaChalkboardTeacher, FaClipboardList, FaExchangeAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
@@ -5,10 +6,31 @@ import { useNavigate } from 'react-router-dom';
 const Dashboard = () => {
     const navigate = useNavigate();
 
+    const [totalStudents, setTotalStudents] = useState(0);
+    const [totalClasses, setTotalClasses] = useState(0);
+    const [totalTeacher, setTotalTeacher] = useState(0);
+
+
+    useEffect(() => {
+        const storedStudents = localStorage.getItem("listStudent");
+        const storedClasses = localStorage.getItem("classList");
+        const storedTeachers = localStorage.getItem("listTeachers");
+
+        if (storedStudents) {
+            setTotalStudents(JSON.parse(storedStudents).length);
+        }
+        if (storedClasses) {
+            setTotalClasses(JSON.parse(storedClasses).length);
+        }
+        if (storedTeachers) {
+            setTotalTeacher(JSON.parse(storedTeachers).length);
+        }
+    }, []);
+
     const dashboardItems = [
-        { id: 1, title: 'Quản lý Học sinh', icon: <FaUsers size={40} />, color: '#ADD8E6', route: '/students' },
-        { id: 2, title: 'Quản lý Giáo viên', icon: <FaChalkboardTeacher size={40} />, color: '#98FB98', route: '/teachers' },
-        { id: 3, title: 'Quản lý Lớp học', icon: <FaClipboardList size={40} />, color: '#FFC0CB', route: '/classes' },
+        { id: 1, title: `Học sinh: ${totalStudents}`, icon: <FaUsers size={40} />, color: '#ADD8E6', route: '/students' },
+        { id: 2, title: `Giáo viên: ${totalTeacher}`, icon: <FaChalkboardTeacher size={40} />, color: '#98FB98', route: '/teachers' },
+        { id: 3, title: `Lớp học: ${totalClasses}`, icon: <FaClipboardList size={40} />, color: '#FFC0CB', route: '/classes' },
         { id: 4, title: 'Chuyển lớp', icon: <FaExchangeAlt size={40} />, color: '#FFA07A', route: '/transfer' },
     ];
 

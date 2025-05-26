@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import TeacherList from "../components/Teacher/TeacherList";
+import "./Style.scss";
 
 const TeachersPage = () => {
     const [classList, setClassList] = useState([]);
@@ -13,7 +14,7 @@ const TeachersPage = () => {
     }, [])
     return (
         <div>
-            <h2>Quản lý giáo viên</h2>
+            <h2 className="text-center">Quản lý giáo viên</h2>
             <TeacherList classOptions={classList} />
         </div>
     )

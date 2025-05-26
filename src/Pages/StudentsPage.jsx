@@ -12,7 +12,7 @@ const StudentsPage = () => {
     }, [])
     return (
         <div>
-            <h2>Quản lý học sinh</h2>
+            <h2 className="text-center mb-5" style={{ color: '#87CEEB', fontFamily: 'Quicksand, sans-serif', fontWeight: 700 }}>Quản lý học sinh</h2>
             <StudentList classOptions={classList} />
         </div>
     )

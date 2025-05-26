@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./TransferStudent.scss"; // SCSS đã tạo trước đó
+import { toast } from "react-toastify";
 
 const TransferStudent = ({ classOptions = [] }) => {
     const [listStudent, setListStudent] = useState([]);
@@ -20,20 +21,17 @@ const TransferStudent = ({ classOptions = [] }) => {
 
     const handleConfirmTransfer = () => {
         if (!newClassId) {
-            alert("Vui lòng chọn lớp mới");
+            toast.error("Vui lòng chọn lớp mới")
             return;
         }
-
         const updatedList = listStudent.map((student) =>
             student.idStudent === studentBeingTransferred
                 ? { ...student, classId: newClassId }
                 : student
         );
-
         setListStudent(updatedList);
         localStorage.setItem("listStudent", JSON.stringify(updatedList));
-
-        alert("Chuyển lớp thành công!");
+        toast.success("Chuyển lớp thành công!")
         setStudentBeingTransferred(null);
         setNewClassId("");
     };

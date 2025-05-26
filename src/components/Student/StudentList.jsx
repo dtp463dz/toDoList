@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import "../TableList.scss";
+import FilterClass from "../FilterClass";
+import { toast } from 'react-toastify';
+
 const StudentList = (props) => {
     const classOptions = props.classOptions;
     const [listStudent, setListStudent] = useState([]);
@@ -8,6 +11,10 @@ const StudentList = (props) => {
     const [classId, setClassId] = useState("");
     const [editStudent, setEditStudent] = useState(null);
     const [editMode, setEditMode] = useState(false);
+
+    // lọc học sinh theo lớp
+    const [filterClassId, setFilterClassId] = useState("");
+
     // khởi tạo localStorage nếu chưa có dữ liệu
     useEffect(() => {
         const stored = localStorage.getItem("listStudent");
@@ -32,7 +39,7 @@ const StudentList = (props) => {
     // them student
     const handleAddStudent = () => {
         if (!name || !classId || !idStudent) {
-            alert('Vui lòng nhập đầy đủ thông tin');
+            toast.error("Vui lòng nhập đầy đủ thông tin ");
             return;
         }
         const newStudent = {
@@ -42,7 +49,7 @@ const StudentList = (props) => {
         };
         const updateStudent = [...listStudent, newStudent];
         setListStudent(updateStudent);
-        alert("Thêm học sinh thành công !")
+        toast.success("Thêm học sinh thành công! ")
         reSetForm();
     }
     // xoa hoc sinh
@@ -50,9 +57,9 @@ const StudentList = (props) => {
         if (id && id > 0) {
             const updatedList = listStudent.filter((student) => student.idStudent !== id);
             setListStudent(updatedList);
-            alert("Đã xóa học sinh thành công")
+            toast.success("Đã xóa học sinh thành công ")
         } else {
-            alert("Xóa học sinh thất bại")
+            toast.error("Xóa học sinh thất bại");
         }
     }
     // bắt đầu chỉnh sửa
@@ -67,7 +74,7 @@ const StudentList = (props) => {
     // cập nhật
     const handleUpDateStudent = () => {
         if (!name || !classId || !idStudent) {
-            alert("Vui lòng nhập đầy đủ thông tin");
+            toast.error("Vui lòng nhập đầy đủ thông tin");
             return;
         }
         const updatedList = listStudent.map((student) =>
@@ -80,11 +87,15 @@ const StudentList = (props) => {
                 : student
         );
         setListStudent(updatedList);
-        alert('Cập nhật học sinh thành công!');
+        toast.success("Cập nhật học sinh thành công!");
         reSetForm();
     }
 
-    console.log('check listStudent: ', listStudent)
+    // loc hoc sinh theo id class
+    const filteredStudents = filterClassId
+        ? listStudent.filter((student) => student.classId === filterClassId)
+        : listStudent;
+
     return (
         <div className="list-container">
             <h3>Thêm mới học sinh</h3>
@@ -101,12 +112,7 @@ const StudentList = (props) => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />
-                {/* <input
-                    type="text"
-                    placeholder="Tên lớp"
-                    value={classId}
-                    onChange={(e) => setClassId(e.target.value)}
-                /> */}
+
                 <select
                     value={classId}
                     onChange={(e) => setClassId(e.target.value)}
@@ -127,6 +133,11 @@ const StudentList = (props) => {
             </div>
 
             <h3 >Danh sách học sinh</h3>
+            <FilterClass
+                classOptions={classOptions}
+                filterClassId={filterClassId}
+                setFilterClassId={setFilterClassId}
+            />
             <div>
                 <>
                     <table className="table table-dark">
@@ -139,7 +150,7 @@ const StudentList = (props) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {listStudent && listStudent.length > 0 && listStudent.map((item) => {
+                            {filteredStudents && filteredStudents.length > 0 && filteredStudents.map((item) => {
                                 return (
                                     <tr key={item.idStudent}>
                                         <th>{item.idStudent}</th>
@@ -164,7 +175,6 @@ const StudentList = (props) => {
                             })}
                         </tbody>
                     </table>
-
                 </>
             </div>
         </div>

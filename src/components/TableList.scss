@@ -147,3 +147,16 @@
         }
     }
 }
+
+
+.filter-container {
+    margin-bottom: 1rem;
+    margin-left: 650px;
+
+    select {
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        min-width: 200px;
+    }
+}

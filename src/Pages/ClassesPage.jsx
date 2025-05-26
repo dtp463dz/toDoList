@@ -1,9 +1,10 @@
-import ClassList from "../components/ClassList";
+import ClassList from "../components/Class/ClassList";
+import "./Style.scss";
 
 const ClassesPage = () => {
     return (
         <div>
-            <h2>Quản lý lớp học</h2>
+            <h2 className="text-center ">Quản lý lớp học</h2>
             <ClassList />
         </div>
     )
