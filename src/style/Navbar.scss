@@ -1,12 +1,10 @@
-// /src/components/Navbar.scss
-
-$primary-color: #007bff; // Blue for active links
-$background-dark: #343a40; // Dark background for navbar
-$text-light: #f8f9fa; // Light text color
-$hover-color: #0056b3; // Darker blue for hover
-$border-color: #ced4da; // Border color
-$shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Subtle shadow
-$transition: all 0.3s ease; // Smooth transition
+$primary-color: #007bff;
+$background-dark: #343a40;
+$text-light: #f8f9fa;
+$hover-color: #0056b3;
+$border-color: #ced4da;
+$shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+$transition: all 0.3s ease;
 
 .navbar {
     background-color: $background-dark;

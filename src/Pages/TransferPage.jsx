@@ -13,7 +13,7 @@ const TransferPage = () => {
 
     return (
         <div>
-            <h2>Chuyển học sinh</h2>
+            <h2 style={{ marginLeft: '350px' }}>Chuyển học sinh</h2>
             <TransferStudent classOptions={classList} />
         </div>
     );

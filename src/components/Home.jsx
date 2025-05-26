@@ -2,13 +2,13 @@ import StudentsPage from "../Pages/StudentsPage.jsx";
 import TeachersPage from "../Pages/TeachersPage.jsx";
 import ClassesPage from "../Pages/ClassesPage.jsx";
 import TransferPage from "../Pages/TransferPage.jsx";
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Template from "./Template.jsx";
+import Dashboard from "./Dashboard.jsx";
+
 const Home = () => {
     return (
         <Routes>
-            <Route path="/" />
+            <Route path="/" element={<Dashboard />} />
             <Route path="students" element={<StudentsPage />} />
             <Route path="teachers" element={<TeachersPage />} />
             <Route path="classes" element={<ClassesPage />} />

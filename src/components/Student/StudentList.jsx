@@ -86,7 +86,7 @@ const StudentList = (props) => {
 
     console.log('check listStudent: ', listStudent)
     return (
-        <div className="list-container mx-2">
+        <div className="list-container">
             <h3>Thêm mới học sinh</h3>
             <div className="list-form">
                 <input
