@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import TransferStudent from "../components/TransferStudent";
+import TransferStudent from "../components/TransferStudent/TransferStudent";
 
 const TransferPage = () => {
     const [classList, setClassList] = useState([]);

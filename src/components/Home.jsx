@@ -13,7 +13,6 @@ const Home = () => {
             <Route path="teachers" element={<TeachersPage />} />
             <Route path="classes" element={<ClassesPage />} />
             <Route path="transfer" element={<TransferPage />} />
-            <Route path="template" element={<Template />} />
 
         </Routes>
     )
